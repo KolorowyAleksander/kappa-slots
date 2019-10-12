@@ -1,0 +1,19 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "kappa-app-dev-20191012140359-authRole",
+            "UnauthRoleArn": "arn:aws:iam::397197953685:role/kappa-app-dev-20191012140359-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::397197953685:role/kappa-app-dev-20191012140359-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "kappa-app-dev-20191012140359-deployment",
+            "UnauthRoleName": "kappa-app-dev-20191012140359-unauthRole",
+            "StackName": "kappa-app-dev-20191012140359",
+            "StackId": "arn:aws:cloudformation:eu-west-1:397197953685:stack/kappa-app-dev-20191012140359/605f7ff0-ece8-11e9-84f6-0a6a2f25f2be"
+        },
+        "categories": {
+            "auth": {
+                "kappaappc5875cb9": {}
+            }
+        }
+    }
+}
