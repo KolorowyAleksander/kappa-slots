@@ -16,8 +16,8 @@ function App() {
                 <nav>
                     <ul>
                         <li><Link to="/">MAIN</Link></li>
-                        <li><Link to="/leaderboard">SLOT</Link></li>
-                        <li><Link to="/user">LEADERBOARD</Link></li>
+                        <li><Link to="/leaderboard">LEADERBOARD</Link></li>
+                        <li><Link to="/history">HISTORY</Link></li>
                         <li><p onClick={logout}>SIGNOUT</p></li>
                     </ul>
                 </nav>
@@ -25,8 +25,8 @@ function App() {
                     <Route path="/leaderboard">
                         <Leaderboard />
                     </Route>
-                    <Route path="/slot">
-                        <Slot />
+                    <Route path="/history">
+                        <History />
                     </Route>
                     <Route path="/">
                         <Homo />
@@ -64,8 +64,8 @@ function Homo() {
 }
 
 
-function Slot() {
-    return <h2>SLOT</h2>;
+function History() {
+    return <h2>HISTORY</h2>;
 }
 
 

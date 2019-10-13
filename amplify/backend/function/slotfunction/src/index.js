@@ -36,7 +36,7 @@ function dynamoWrite(data) {
 }
 
 exports.handler = function (event, context) { //eslint-disable-line
-  console.log(`value1 = ${event}`);
+  console.log(event);
 
   const win = getRandomInt(1);
   const possibleResults = ['mellon', 'warek', 'cherry', 'dollar'];
