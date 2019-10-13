@@ -5,9 +5,36 @@ var region = process.env.REGION
 
 Amplify Params - DO NOT EDIT */
 
+
+const AWS = require('aws-sdk');
+const region = process.env.REGION;
+const environment = process.env.ENV;
+const tableName = `slotstable-${environment}`;
+
+
+function getAllEntries(user, context) {
+  AWS.config.update({region: region});
+  const client = new AWS.DynamoDB.DocumentClient();
+
+  const query = {
+    TableName: tableName,
+    FilterExpression: '#user = :user',
+    ExpressionAttributeNames:{ "#user": "user" },
+    ExpressionAttributeValues: { ':user': user },
+  };
+
+  client.scan(query, function(err, data) {
+    if (err) {
+      console.log(err);
+      context.done('Something went wrong when scanning for history', null);
+    } else {
+      console.log(data);
+      context.done(null, { entries: data.Items });
+    }
+  });
+}
+
 exports.handler = function (event, context) { //eslint-disable-line
-  console.log(`value1 = ${event.key1}`);
-  console.log(`value2 = ${event.key2}`);
-  console.log(`value3 = ${event.key3}`);
-  context.done(null, 'Hello World'); // SUCCESS with message
+  const username = event.identity.username;
+  getAllEntries(username, context);
 };

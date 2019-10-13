@@ -12,8 +12,8 @@ export const getLeaderboard = `query GetLeaderboard {
   }
 }
 `;
-export const getHistory = `query GetHistory($user: String!) {
-  getHistory(user: $user) {
+export const getHistory = `query GetHistory {
+  getHistory {
     entries {
       user
       first

@@ -6,39 +6,41 @@ var region = process.env.REGION
 Amplify Params - DO NOT EDIT */
 
 const AWS = require('aws-sdk');
-const util = require('util');
 const uuid = require('uuid/v4');
 const region = process.env.REGION;
 const environment = process.env.ENV;
 const tableName = `slotstable-${environment}`;
 
-function dynamoWrite(data) {
+function dynamoWrite(username, data, context) {
   AWS.config.update({region: region});
-  const ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
-
+  const client = new AWS.DynamoDB.DocumentClient();
+  const now = new Date().toISOString();
   const item = {
     ...data,
     id: uuid(),
-    
+    user: username,
+    date: now,
   }
+
   const params = {
     TableName: tableName,
-    Item: AWS.DynamoDB.Converter.input(item),
+    Item: item,
   };
 
-  ddb.putItem(params, function(err, data) {
+  client.put(params, function(err, data) {
     if (err) {
-      console.log("Error", err);
+      console.log(err);
+      context.done('Error saving the result to the database', null);
     } else {
-      console.log("Success", data);
+      context.done(null, item);
     }
   });
 }
 
 exports.handler = function (event, context) { //eslint-disable-line
-  console.log(event);
+  const username = event.identity.username;
 
-  const win = getRandomInt(1);
+  const win = getRandomInt(2);
   const possibleResults = ['mellon', 'warek', 'cherry', 'dollar'];
 
   const result = (win)
@@ -55,9 +57,7 @@ exports.handler = function (event, context) { //eslint-disable-line
       winner: false,
     };
 
-  // dynamoWrite(result);
-
-  context.done(null, result);
+  dynamoWrite(username, result, context);
 };
 
 function getRandomInt(max) {

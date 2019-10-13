@@ -30,10 +30,10 @@ type SlotResult {
 }
 
 type Mutation {
-	runSlotmachine(user: String!): SlotResult! @function(name: "slotfunction-${env}")
+	runSlotmachine: SlotResult! @function(name: "slotfunction-${env}")
 }
 
 type Query {
 	getLeaderboard: Leaderboard! @function(name: "leaderboardfunction-${env}")
-	getHistory(user: String!): History! @function(name: "historyfunction-${env}")
+	getHistory: History! @function(name: "historyfunction-${env}")
 }

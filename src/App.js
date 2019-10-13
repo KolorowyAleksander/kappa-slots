@@ -44,9 +44,7 @@ async function logout() {
 
 async function addElement () {
     try {
-        const e = await Auth.currentAuthenticatedUser();
-        const details = { user: e.username };
-        const result = await API.graphql(graphqlOperation(runSlotmachine, details));
+        const result = await API.graphql(graphqlOperation(runSlotmachine));
         alert(JSON.stringify(result));
     } catch (e) {
         console.log('Exception caught when retrieving user data', e);
