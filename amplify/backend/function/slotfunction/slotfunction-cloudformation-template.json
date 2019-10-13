@@ -63,7 +63,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "kappa-app-dev-20191012140359-deployment",
-					"S3Key": "amplify-builds/slotfunction-52507268454b4a796c36-build.zip"
+					"S3Key": "amplify-builds/slotfunction-524d5058674e6b635144-build.zip"
 				}
 			}
 		},

@@ -3,3 +3,14 @@ type MyType @model {
 	title: String!
 	content: String!
 }
+
+type SlotResult {
+	first: String
+	second: String
+	third: String
+	winner: Boolean
+}
+
+type Mutation {
+	runSlotmachine(user: String!): SlotResult @function(name: "slotfunction-${env}")
+}
