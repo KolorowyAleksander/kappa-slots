@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
+import Amplify, { Analytics, Storage, API, graphqlOperation, Auth } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import awsconfig from './aws-exports';
 import { runSlotmachine } from './graphql/mutations';
@@ -16,12 +16,9 @@ function App() {
                 <nav>
                     <ul>
                         <li><Link to="/">MAIN</Link></li>
-                    </ul>
-                    <ul>
                         <li><Link to="/leaderboard">SLOT</Link></li>
-                    </ul>
-                    <ul>
                         <li><Link to="/user">LEADERBOARD</Link></li>
+                        <li><p onClick={logout}>SIGNOUT</p></li>
                     </ul>
                 </nav>
                 <Switch>
@@ -41,15 +38,19 @@ function App() {
 }
 
 
-async function addElement () {
-    const elementDetails = {
-        input: {
-            user: 'Party tonight!'
-        }
-    };
+async function logout() {
+    Auth.signOut();
+}
 
-    const result = await API.graphql(graphqlOperation(runSlotmachine, elementDetails));
-    alert(JSON.stringify(result));
+async function addElement () {
+    try {
+        const e = await Auth.currentAuthenticatedUser();
+        const details = { user: e.username };
+        const result = await API.graphql(graphqlOperation(runSlotmachine, details));
+        alert(JSON.stringify(result));
+    } catch (e) {
+        console.log('Exception caught when retrieving user data', e);
+    }
 };
   
 

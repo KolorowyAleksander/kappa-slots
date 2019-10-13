@@ -4,6 +4,18 @@
 	"Parameters": {
 		"env": {
 			"Type": "String"
+		},
+		"storageslotstableName": {
+			"Type": "String",
+			"Default": "storageslotstableName"
+		},
+		"storageslotstableArn": {
+			"Type": "String",
+			"Default": "storageslotstableArn"
+		},
+		"storageslotstableStreamArn": {
+			"Type": "String",
+			"Default": "storageslotstableArn"
 		}
 	},
 	"Conditions": {
@@ -63,7 +75,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "kappa-app-dev-20191012140359-deployment",
-					"S3Key": "amplify-builds/slotfunction-524d5058674e6b635144-build.zip"
+					"S3Key": "amplify-builds/slotfunction-354a53634558576d576a-build.zip"
 				}
 			}
 		},
@@ -140,6 +152,28 @@
 										},
 										"lambda": {
 											"Ref": "LambdaFunction"
+										}
+									}
+								]
+							}
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:*"
+							],
+							"Resource": {
+								"Fn::Sub": [
+									"arn:aws:dynamodb:${region}:${account}:table/slotstable-${env}",
+									{
+										"region": {
+											"Ref": "AWS::Region"
+										},
+										"account": {
+											"Ref": "AWS::AccountId"
+										},
+										"env": {
+											"Ref": "env"
 										}
 									}
 								]
