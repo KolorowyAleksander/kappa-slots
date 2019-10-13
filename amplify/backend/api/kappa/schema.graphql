@@ -1,16 +1,39 @@
-type MyType @model {
-	id: ID!
-	title: String!
-	content: String!
+type Leaderboard {
+	entries: [LeaderboardEntry!]!
+}
+
+type LeaderboardEntry {
+	user: String!
+	place: Int!
+	score: Float!
+	wins: Int!
+}
+
+type History {
+	entries: [HistoryEntry!]!
+}
+
+type HistoryEntry {
+	user: String!
+	first: String!
+	second: String!
+	third: String!
+	winner: Boolean!
+	date: String!
 }
 
 type SlotResult {
-	first: String
-	second: String
-	third: String
-	winner: Boolean
+	first: String!
+	second: String!
+	third: String!
+	winner: String!
 }
 
 type Mutation {
-	runSlotmachine(user: String!): SlotResult @function(name: "slotfunction-${env}")
+	runSlotmachine(user: String!): SlotResult! @function(name: "slotfunction-${env}")
+}
+
+type Query {
+	getLeaderboard: Leaderboard! @function(name: "leaderboardfunction-${env}")
+	getHistory(user: String!): History! @function(name: "historyfunction-${env}")
 }

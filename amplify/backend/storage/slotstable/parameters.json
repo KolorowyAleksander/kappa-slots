@@ -1,0 +1,7 @@
+{
+    "tableName": "slotstable",
+    "partitionKeyName": "id",
+    "partitionKeyType": "S",
+    "sortKeyName": "user",
+    "sortKeyType": "S"
+}

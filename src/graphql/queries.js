@@ -1,26 +1,27 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getMyType = `query GetMyType($id: ID!) {
-  getMyType(id: $id) {
-    id
-    title
-    content
+export const getLeaderboard = `query GetLeaderboard {
+  getLeaderboard {
+    entries {
+      user
+      place
+      score
+      wins
+    }
   }
 }
 `;
-export const listMyTypes = `query ListMyTypes(
-  $filter: ModelMyTypeFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listMyTypes(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      title
-      content
+export const getHistory = `query GetHistory($user: String!) {
+  getHistory(user: $user) {
+    entries {
+      user
+      first
+      second
+      third
+      winner
+      date
     }
-    nextToken
   }
 }
 `;

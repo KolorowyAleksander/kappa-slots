@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react';
 import awsconfig from './aws-exports';
-import { createMyType } from './graphql/mutations';
+import { runSlotmachine } from './graphql/mutations';
 
 Amplify.configure(awsconfig);
 
@@ -44,12 +44,11 @@ function App() {
 async function addElement () {
     const elementDetails = {
         input: {
-            title: 'Party tonight!',
-            content: 'Amplify CLI rocks!'
+            user: 'Party tonight!'
         }
     };
 
-    const result = await API.graphql(graphqlOperation(createMyType, elementDetails));
+    const result = await API.graphql(graphqlOperation(runSlotmachine, elementDetails));
     alert(JSON.stringify(result));
 };
   

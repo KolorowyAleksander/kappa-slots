@@ -33,7 +33,24 @@
 		"slotfunction": {
 			"service": "Lambda",
 			"providerPlugin": "awscloudformation",
+			"build": true,
+			"dependsOn": []
+		},
+		"historyfunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
 			"build": true
+		},
+		"leaderboardfunction": {
+			"service": "Lambda",
+			"providerPlugin": "awscloudformation",
+			"build": true
+		}
+	},
+	"storage": {
+		"slotstable": {
+			"service": "DynamoDB",
+			"providerPlugin": "awscloudformation"
 		}
 	}
 }

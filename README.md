@@ -1,68 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+### SLOTS MACHINE PROJECT
+This is a project created as a student's project. The aim was to create a cloud based application that leverages full potential of a cloud provider: IaC, CI/CD, fully managed services.
+This project is a slotmachine simulation that allows users to register and roll the wheels - in hopes of scoring big with the **Tripple Kappa®**. In addition the user can see all his rolls *history* and a *leaderbord* with scoring. One substantial inspiration for the look and feel of the whole project is **_brutalist design_**
+Everything in this project was created using AWS Apmlify - the React.js application, hosting, storage, GraphQL API and serverless logic using Lambdas.
+Lessons learned:
+- Amplify is a great tool, but it can only do so much in terms of creating an application. The real obstacle is as always with tools like this one doing stuff outside of bounds created by the tool - what the creators didn't provide won't really work unless you know the underlaying structure very, *very* well.
+- The CI/CD integration with GitHub used in this project was neat, but it lacks so much in terms of responsiveness. I have been stuck for half an hour trying to add another branch to the project for a production environment and it wouldn't happen. Also while deployment from my machine with *amplify push* took around a minute, deployment from the Amplify console took around 10 minutes - while performing all the same steps.
+- There is no easy way to customize the GraphQL API created with Amplify with custom Lambda logic. You have to either use the provided api as is or create everything from scratch and bind functions in the schema with *@function* directives.
+- All in all, this is pretty much a revolution in allowing students to create their projects in one evening - as long as they're allowed to use JavaScript.
