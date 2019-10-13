@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "kappa",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authkappaappc5875cb9",
+            "Outputs.UserPoolId"
+        ]
+    }
+}
