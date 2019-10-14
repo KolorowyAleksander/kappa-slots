@@ -40,7 +40,7 @@ function dynamoWrite(username, data, context) {
 exports.handler = function (event, context) { //eslint-disable-line
   const username = event.identity.username;
 
-  const win = getRandomInt(2);
+  const win = (getRandomInt(3) === 0) ? true : false;
 
   const possibleResults = [
     'cherry', 'dollar', 'mellon',

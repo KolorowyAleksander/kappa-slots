@@ -1,0 +1,16 @@
+
+.leaderboard-view {
+    font-size: 200%;
+    color: white;
+    /* background-image: url(./elephant.jpeg); */
+}
+
+.leaderboard-view th {
+    padding: 0 2em;
+    border-bottom: 2px solid white;
+}
+
+.leaderboard-view td {
+    padding: 0.5em 1.5em;
+    border-bottom: 1px white solid;
+}

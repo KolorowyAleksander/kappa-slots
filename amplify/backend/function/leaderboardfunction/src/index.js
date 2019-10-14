@@ -43,7 +43,7 @@ function countWins(userData) {
 
 function sortByPoints(arrayData) {
   const sortedArrayData = arrayData.sort((a, b) => a.score - b.score);
-  return [...sortedArrayData];
+  return [...sortedArrayData.reverse()];
 }
 
 function appendArtificialScores(sortedData) {
@@ -52,7 +52,7 @@ function appendArtificialScores(sortedData) {
     {
       user: "Kappa",
       wins: "6969",
-      score: "9001",
+      score: "90019001",
     },
     {
       user: "Xylophonepiano",
@@ -82,9 +82,9 @@ function groupData(data, context) {
       wins: countWins(data),
     }));
 
-  const sorted = sortByPoints(counted);
+  const sorted = appendArtificialScores(counted);
 
-  const sorted2 = appendArtificialScores(sorted);
+  const sorted2 = sortByPoints(sorted);
 
   const ordered = sorted2.map((value, index) => ({...value, place: index++ }));
 
