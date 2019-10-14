@@ -16,6 +16,10 @@ const itemPoints = {
   'dollar': 15,
   'mellon': 20,
   'warek': 25,
+  'fish': 30,
+  'rolex': 35,
+  'five-o': 40,
+  'billberry': 45,
   'kappa': 50,
 };
 
@@ -44,7 +48,7 @@ function sortByPoints(arrayData) {
 
 function appendArtificialScores(sortedData) {
   return [
-    ...ordered,
+    ...sortedData,
     {
       user: "Kappa",
       wins: "6969",

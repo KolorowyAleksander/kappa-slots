@@ -1,199 +1,117 @@
-const rootElement = document.getElementById('root')
-  
-function RepeatButton(props) {
-  return (
-    <button 
-      aria-label='Play again.' 
-      id='repeatButton' 
-      onClick={props.onClick}>
-    </button>
-  );
+import React from 'react';
+
+import { API, graphqlOperation } from 'aws-amplify';
+import { runSlotmachine } from '../graphql/mutations';
+
+import './Slotmachine.css';
+
+const IconHeight = 188;
+
+
+const possibleResults = [
+  'cherry',
+  'dollar',
+  'mellon',
+  'warek', 
+  'fish', 
+  'rolex',
+  'five-o', 
+  'billberry', 
+  'kappa'
+];
+
+function getNumberForElement(element) {
+  return possibleResults.indexOf(element);
 }
 
-function WinningSound() {
-  return (
-  <audio autoplay="autoplay" className="player" preload="false">
-    <source src="https://andyhoffman.codes/random-assets/img/slots/winning_slot.wav" />
-  </audio>  
-  );
-}
-
-class App extends React.Component {
+export default class SlotMachine extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      winner: null
-    }
-    this.finishHandler = this.finishHandler.bind(this)
-    this.handleClick = this.handleClick.bind(this);
-  }  
-
-  handleClick() { 
-    this.setState({ winner: null });
-    this.emptyArray();
-    this._child1.forceUpdateHandler();
-    this._child2.forceUpdateHandler();
-    this._child3.forceUpdateHandler();
+    this.state = { running: false };
+    this.roll = this.roll.bind(this);
+    this.rollEnded = this.rollEnded.bind(this);
   }
 
-  static loser = [
-    'Not quite', 
-    'Stop gambling', 
-    'Hey, you lost!', 
-    'Ouch! I felt that',      
-    'Don\'t beat yourself up',
-    'There goes the college fund',
-    'I have a cat. You have a loss',
-    'You\'re awesome at losing',
-    'Coding is hard',
-    'Don\'t hate the coder'
-  ];
-
-  static matches = [];
-
-  finishHandler(value) {
-    App.matches.push(value);  
-
-    if (App.matches.length === 3) {
-      const { winner } = this.state;
-      const first = App.matches[0];
-      let results = App.matches.every(match => match === first)
-      this.setState({ winner: results });
-    }
+  rollEnded() {
+    this.setState({...this.state, running: false});
   }
 
-  emptyArray() {
-    App.matches = [];
-  }
-
-  render() {
-    const { winner } = this.state;
-    const getLoser = () => {       
-      return App.loser[Math.floor(Math.random()*App.loser.length)]
+  async roll() {
+    try {
+        if (this.state.running) {
+          return;
+        }
+        const { data } = await API.graphql(graphqlOperation(runSlotmachine));
+        console.log(data);
+        this.setState({...this.state, ...data.runSlotmachine, running: true});
+    } catch (e) {
+        console.log('Exception caught when retrieving user data', e);
     }
-    let repeatButton = null;
-    let winningSound = null;
-
-    if (winner !== null) {
-      repeatButton = <RepeatButton onClick={this.handleClick} />
-    }
-    
-    if (winner) {
-      winningSound = <WinningSound />
-    }
-
-    return (
-      <div>
-        {winningSound}
-        <h1 style={{ color: 'white'}}>
-          <span>{winner === null ? 'Waiting…' : winner ? '🤑 Pure skill! 🤑' : getLoser()}</span>
-        </h1>
-
-        <div className={`spinner-container`}>
-          <Spinner onFinish={this.finishHandler} ref={(child) => { this._child1 = child; }} timer="1000" />
-          <Spinner onFinish={this.finishHandler} ref={(child) => { this._child2 = child; }} timer="1400" />
-          <Spinner onFinish={this.finishHandler} ref={(child) => { this._child3 = child; }} timer="2200" />
-          <div className="gradient-fade"></div>
-        </div>
-        {repeatButton}          
-      </div>
-    );
-  }
-}  
-  
-class Spinner extends React.Component {  
-  constructor(props){
-    super(props);
-    this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
   };
 
-  forceUpdateHandler(){
-    this.reset();
-  }; 
+  render() {
+    return <>
+      <div className={`spinner-container`}>
+        <Spinner onEnd={this.rollEnded} 
+                 running={this.state.running}
+                 endElement={getNumberForElement(this.state.first)}
+                 timer="900" />
+        <Spinner onEnd={this.rollEnded} 
+                 running={this.state.running} 
+                 endElement={getNumberForElement(this.state.second)}
+                 timer="1400" />
+        <Spinner onEnd={this.rollEnded} 
+                 running={this.state.running} 
+                 endElement={getNumberForElement(this.state.third)}
+                 timer="2200" />
+      </div>
+      <div className="button-container">
+        <button className="reroll-button" onClick={this.roll}>LET'S ROLL</button>
+      </div>;
+    </>;
+  }
+}
+
+class Spinner extends React.Component {  
+  constructor(props) {
+    super(props);
+    this.state = { position: 0 };
+  };   
+
+  UNSAFE_componentWillReceiveProps(nextProps, nextState) {
+    if (nextProps.running) {
+      this.reset();
+    }
+  }
 
   reset() {
     if (this.timer) { 
       clearInterval(this.timer); 
     }  
 
-    this.start = this.setStartPosition();
-
+    const startPosition = this.props.endElement * IconHeight *-1;
     this.setState({
-      position: this.start,
+      position: startPosition,
       timeRemaining: this.props.timer        
     });
 
-    this.timer = setInterval(() => {
-      this.tick()
-    }, 100);      
-  }
-
-  state = {
-    position: 0,
-    lastPosition: null
-  }
-  static iconHeight = 188;
-  multiplier = Math.floor(Math.random()*(4-1)+1);
-
-  start = this.setStartPosition();
-  speed = Spinner.iconHeight * this.multiplier;    
-
-  setStartPosition() {
-    return ((Math.floor((Math.random()*9))) * Spinner.iconHeight)*-1;
-  }
-
-  moveBackground() {
-    this.setState({ 
-      position: this.state.position - this.speed,
-      timeRemaining: this.state.timeRemaining - 100
-    })
-  }
-
-  getSymbolFromPosition() {
-    let { position } = this.state;
-    const totalSymbols = 9;
-    const maxPosition = (Spinner.iconHeight * (totalSymbols-1)*-1);
-    let moved = (this.props.timer/100) * this.multiplier
-    let startPosition = this.start;
-    let currentPosition = startPosition;    
-
-    for (let i = 0; i < moved; i++) {              
-      currentPosition -= Spinner.iconHeight;
-
-      if (currentPosition < maxPosition) {
-        currentPosition = 0;
-      }      
-    }
-
-    this.props.onFinish(currentPosition);
+    this.timer = setInterval(() => { this.tick() }, 100);      
   }
 
   tick() {      
     if (this.state.timeRemaining <= 0) {
       clearInterval(this.timer);        
-      this.getSymbolFromPosition();    
-
+      this.props.onEnd();
     } else {
-      this.moveBackground();
+      this.setState({ 
+        position: this.state.position - IconHeight * 900/this.props.timer,
+        timeRemaining: this.state.timeRemaining - 100
+      })
     }      
   }
 
-  componentDidMount() {
-    clearInterval(this.timer);
-
-    this.setState({
-      position: this.start,
-      timeRemaining: this.props.timer
-    });
-
-    this.timer = setInterval(() => {
-      this.tick()
-    }, 100);
-  }
-
   render() {
-    let { position, current } = this.state;   
-
+    const { position } = this.state;   
     return (            
       <div 
         style={{backgroundPosition: '0px ' + position + 'px'}}
@@ -202,12 +120,3 @@ class Spinner extends React.Component {
     )
   }
 }
-
-function runApp() {
-  ReactDOM.render(
-    <App />,
-    rootElement
-  )
-}
-  
-runApp();

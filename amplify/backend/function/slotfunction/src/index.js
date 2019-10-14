@@ -41,7 +41,12 @@ exports.handler = function (event, context) { //eslint-disable-line
   const username = event.identity.username;
 
   const win = getRandomInt(2);
-  const possibleResults = ['mellon', 'warek', 'cherry', 'dollar'];
+
+  const possibleResults = [
+    'cherry', 'dollar', 'mellon',
+    'warek', 'fish', 'rolex',
+    'five-o', 'billberry', 'kappa'
+  ];
 
   const result = (win)
     ? {

@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -19,4 +19,32 @@
 
 .App-link {
   color: #09d3ac;
+} */
+
+body {
+  margin: 0;
+  background-color: red;
+}
+.application-main {
+  margin: 0 auto;
+  width: 80%;
+  height: 100vh;
+}
+
+.nav-router {
+  margin-top: 1em;
+  background-color: rgb(4, 0, 255);
+}
+
+.nav-router ul {
+  margin-top: 0;
+  color: red;
+}
+
+.nav-router a {
+  margin: 5px 10px;
+  color: red;
+}
+.nav-router li {
+  display: inline-block;
 }
